@@ -36,14 +36,14 @@ async function run() {
      * Remove next 3 line code after checking db connection.
      * ******************************************************
      */
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.connect();
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
 
-    const database = client.db("dbName"); // replace the database name
-    const assignmentsData = database.collection("collectionName"); // replace the collection name
+    const database = client.db("DhakaDwell");
+    const apartmentsData = database.collection("apartments");
 
     /** Database APIs */
 
