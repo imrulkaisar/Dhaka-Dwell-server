@@ -1,9 +1,13 @@
 const express = require("express");
 const app = express();
-// const cors = require("cors");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+
+// routers
+const apartmentsRoute = require("./src/routes/apartments.route");
+
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const port = process.env.PORT || 3333;
@@ -12,50 +16,71 @@ const port = process.env.PORT || 3333;
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(
+  cors({
+    origin: ["https://dhakadwell.surge.sh", "http://localhost:5173"],
+    credentials: true,
+  })
+);
+
+// Sample route to generate and return a JWT
+app.post("/jwt", (req, res) => {
+  const userInfo = req.body;
+
+  // Check if user info is valid (e.g., validate email)
+  if (!userInfo.email) {
+    return res.status(400).json({ error: "Invalid user info" });
+  }
+
+  // Create a JWT with the user info
+  const token = jwt.sign(userInfo, process.env.TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
+
+  res.json({ token });
+});
+
 // Default API
 app.get("/", (req, res) => {
   res.send("App is running...");
 });
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.itr0uhy.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.itr0uhy.mongodb.net/DhakaDwell?retryWrites=true&w=majority`;
 // Replace this uri when you work a new mongodb account
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+const connectDB = async () => {
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("db is connected");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Routes
+app.use("/apartments", apartmentsRoute);
+
+// Handling all unhandled routes
+app.all("*", (req, res, next) => {
+  const error = new Error(`Cannot ${req.method} ${req.originalUrl}`);
+  error.status = 404;
+  next(error);
 });
 
-async function run() {
-  try {
-    /**
-     * ******************************************************
-     * Remove next 3 line code after checking db connection.
-     * ******************************************************
-     */
-    // await client.connect();
-    // await client.db("admin").command({ ping: 1 });
-    // console.log(
-    //   "Pinged your deployment. You successfully connected to MongoDB!"
-    // );
+// Error handling middleware
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message || "Internal Server Error",
+    },
+  });
+});
 
-    const database = client.db("DhakaDwell");
-    const apartmentsData = database.collection("apartments");
-
-    /** Database APIs */
-
-    // Add your apis here
-
-    // end try block
-  } catch (e) {
-    console.error(e);
-  }
-}
-run().catch(console.dir);
-
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Server is running at http://localhost:${port}`);
+
+  await connectDB();
 });
