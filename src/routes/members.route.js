@@ -11,12 +11,18 @@ const {
 const { deleteMember } = require("../controllers/members/delete.controller");
 const { updateMember } = require("../controllers/members/update.controller");
 const { isMemberExist } = require("../controllers/members/isExist.controller");
+const {
+  getMemberById,
+} = require("../controllers/members/memberById.controller");
 
 // middlewares
 // const verifyToken = require("../middlewares/verifyToken");
 
 // GET all members
 router.get("/get-all", getAllMembers);
+
+// Get user by id
+router.get("/get-member-by-id/:id", getMemberById);
 
 // GET member details
 router.get("/member", memberDetails);
