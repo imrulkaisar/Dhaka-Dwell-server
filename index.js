@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 
 // routers
 const apartmentsRoute = require("./src/routes/apartments.route");
+const membersRoute = require("./src/routes/members.route");
 
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -62,6 +63,7 @@ const connectDB = async () => {
 
 // Routes
 app.use("/apartments", apartmentsRoute);
+app.use("/members/", membersRoute);
 
 // Handling all unhandled routes
 app.all("*", (req, res, next) => {
