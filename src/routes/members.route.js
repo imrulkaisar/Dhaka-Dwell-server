@@ -37,7 +37,7 @@ router.post("/create", createMember);
 router.patch("/update", updateMember);
 
 // PATCH change the role of an existing member
-router.patch("/change-role", changeMemberRole);
+router.patch("/change-role/:id", changeMemberRole);
 
 // DELETE delete an existing member
 router.delete("/delete", deleteMember);
