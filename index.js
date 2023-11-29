@@ -9,6 +9,7 @@ const apartmentsRoute = require("./src/routes/apartments.route");
 const membersRoute = require("./src/routes/members.route");
 const agreementsRoute = require("./src/routes/agreements.route");
 const announcementsRoute = require("./src/routes/announcements.route");
+const couponsRoute = require("./src/routes/coupons.route");
 
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -68,6 +69,7 @@ app.use("/apartments", apartmentsRoute);
 app.use("/members", membersRoute);
 app.use("/agreements", agreementsRoute);
 app.use("/announcements", announcementsRoute);
+app.use("/coupons", couponsRoute);
 
 // Handling all unhandled routes
 app.all("*", (req, res, next) => {
