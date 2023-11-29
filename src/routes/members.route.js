@@ -26,10 +26,10 @@ router.get("/get-all", verifyToken, verifyAdmin, getAllMembers);
 router.get("/get-member-by-id/:id", verifyToken, getMemberById);
 
 // GET member details
-router.get("/member", verifyToken, memberDetails);
+router.get("/member", memberDetails);
 
 // GET whether a member with a given email exists
-router.get("/is-exists", verifyToken, isMemberExist);
+router.get("/is-exists", isMemberExist);
 
 // POST create a new member
 router.post("/create", createMember);
