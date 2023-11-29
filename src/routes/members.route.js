@@ -16,10 +16,11 @@ const {
 } = require("../controllers/members/memberById.controller");
 
 // middlewares
-// const verifyToken = require("../middlewares/verifyToken");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 
 // GET all members
-router.get("/get-all", getAllMembers);
+router.get("/get-all", verifyToken, verifyAdmin, getAllMembers);
 
 // Get user by id
 router.get("/get-member-by-id/:id", getMemberById);
