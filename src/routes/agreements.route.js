@@ -15,10 +15,14 @@ const {
   updateAgreementStatus,
 } = require("../controllers/agreements/update.controller");
 
+// middlewares
+const verifyToken = require("../middlewares/verifyToken");
+const verifyAdmin = require("../middlewares/verifyAdmin");
+
 // Request agreement
-router.post("/request", addAgreementRequest);
+router.post("/request", verifyToken, addAgreementRequest);
 router.get("/get-all", getAllAgreement);
-router.patch("/update/:id", updateAgreementStatus);
-router.delete("/delete/:id", deleteAgreementById);
+router.patch("/update/:id", verifyToken, verifyAdmin, updateAgreementStatus);
+router.delete("/delete/:id", verifyToken, verifyAdmin, deleteAgreementById);
 
 module.exports = router;
