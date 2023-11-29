@@ -16,13 +16,14 @@ const {
 } = require("../controllers/members/memberById.controller");
 
 // middlewares
-// const verifyToken = require("../middlewares/verifyToken");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 
 // GET all members
-router.get("/get-all", getAllMembers);
+router.get("/get-all", verifyToken, verifyAdmin, getAllMembers);
 
 // Get user by id
-router.get("/get-member-by-id/:id", getMemberById);
+router.get("/get-member-by-id/:id", verifyToken, getMemberById);
 
 // GET member details
 router.get("/member", memberDetails);
@@ -34,12 +35,12 @@ router.get("/is-exists", isMemberExist);
 router.post("/create", createMember);
 
 // PATCH update an existing member
-router.patch("/update", updateMember);
+router.patch("/update", verifyToken, verifyAdmin, updateMember);
 
 // PATCH change the role of an existing member
-router.patch("/change-role/:id", changeMemberRole);
+router.patch("/change-role/:id", verifyToken, verifyAdmin, changeMemberRole);
 
-// DELETE delete an existing member
-router.delete("/delete", deleteMember);
+// DELETE delete an existing member by providing email with query request
+router.delete("/delete", verifyToken, verifyAdmin, deleteMember);
 
 module.exports = router;

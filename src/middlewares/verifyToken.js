@@ -6,7 +6,8 @@ const secretKey = process.env.TOKEN_SECRET;
 
 const verifyToken = (req, res, next) => {
   // Get the token from the request header
-  const token = req.header("authorization");
+  const authorizationCode = req.headers.authorization;
+  const token = authorizationCode.split(" ")[1];
 
   // Check if token is present
   if (!token) {
@@ -23,7 +24,7 @@ const verifyToken = (req, res, next) => {
     // Continue to the next middleware or route handler
     next();
   } catch (error) {
-    return res.status(403).json({ error: "Forbidden: Invalid token" });
+    return res.status(403).json({ message: "Forbidden: Invalid token", error });
   }
 };
 
