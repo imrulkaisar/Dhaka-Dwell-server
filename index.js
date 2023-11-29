@@ -10,6 +10,7 @@ const membersRoute = require("./src/routes/members.route");
 const agreementsRoute = require("./src/routes/agreements.route");
 const announcementsRoute = require("./src/routes/announcements.route");
 const couponsRoute = require("./src/routes/coupons.route");
+const paymentsRoute = require("./src/routes/payments.route.js");
 
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -70,6 +71,7 @@ app.use("/members", membersRoute);
 app.use("/agreements", agreementsRoute);
 app.use("/announcements", announcementsRoute);
 app.use("/coupons", couponsRoute);
+app.use("/payments", paymentsRoute);
 
 // Handling all unhandled routes
 app.all("*", (req, res, next) => {
