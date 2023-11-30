@@ -38,7 +38,7 @@ router.get("/is-exists", isMemberExist);
 router.post("/create", createMember);
 
 // PATCH update an existing member
-router.patch("/update", verifyToken, verifyAdmin, updateMember);
+router.patch("/update/:id", verifyToken, verifyAdmin, updateMember);
 
 // PATCH change the role of an existing member
 router.patch("/change-role/:id", verifyToken, verifyAdmin, changeMemberRole);

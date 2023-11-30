@@ -39,7 +39,7 @@ app.post("/jwt", (req, res) => {
 
   // Create a JWT with the user info
   const token = jwt.sign(userInfo, process.env.TOKEN_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "12h",
   });
 
   res.json({ token });
@@ -89,8 +89,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, async () => {
-  console.log(`Server is running at http://localhost:${port}`);
-
+const main = async () => {
   await connectDB();
-});
+  app.listen(port, async () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+};
+
+main();
