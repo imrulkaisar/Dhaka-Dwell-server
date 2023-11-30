@@ -18,11 +18,15 @@ const {
 // middlewares
 const verifyToken = require("../middlewares/verifyToken");
 const verifyAdmin = require("../middlewares/verifyAdmin");
+const {
+  agreementByFilter,
+} = require("../controllers/agreements/agreementByFilter.controller");
 
 // Request agreement
 router.post("/request", verifyToken, addAgreementRequest);
 router.get("/get-all", getAllAgreement);
 router.patch("/update/:id", verifyToken, verifyAdmin, updateAgreementStatus);
 router.delete("/delete/:id", verifyToken, verifyAdmin, deleteAgreementById);
+router.get("/get-agreement/", verifyToken, agreementByFilter);
 
 module.exports = router;
