@@ -18,6 +18,9 @@ const {
 // middlewares
 const verifyToken = require("../middlewares/verifyToken");
 const verifyAdmin = require("../middlewares/verifyAdmin");
+const {
+  getTotalMemberNumber,
+} = require("../controllers/members/totalCount.controller");
 
 // GET all members
 router.get("/get-all", verifyToken, verifyAdmin, getAllMembers);
@@ -42,5 +45,7 @@ router.patch("/change-role/:id", verifyToken, verifyAdmin, changeMemberRole);
 
 // DELETE delete an existing member by providing email with query request
 router.delete("/delete", verifyToken, verifyAdmin, deleteMember);
+
+router.get("/total", verifyToken, getTotalMemberNumber);
 
 module.exports = router;
